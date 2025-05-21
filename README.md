@@ -127,7 +127,7 @@
         <h1>История в культуре</h1>
         <p class="subtitle">Экскурсионные маршруты по литературным произведениям</p>
     </header>
-<!DOCTYPE html>
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
