@@ -127,6 +127,9 @@
         <h1>История в культуре</h1>
         <p class="subtitle">Экскурсионные маршруты по литературным произведениям</p>
     </header>
+    <a href=[https://yandex.ru/maps/?um=constructor%3A2c665cafd9526f9259a76a0ae6d2b8b6d59aa61fa4985f3ff51d8a24a9ada08f&source=constructorLink](https://music.yandex.ru/users/ilapetrov34053/playlists/1029)"btn">Плейлист</a>
+    <a href="[belie-nochi.html](https://yandex.ru/maps/)" class="btn">Подробнее</a>
+   
     
     <div class="container">
         <div class="routes-grid">
