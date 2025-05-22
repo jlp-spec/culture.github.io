@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Культура в истории - Ваш прогресс</title>
+    <style>
+        :root {
+            --completed: #27ae60;
+            --in-progress: #f39c12;
+            --not-started: #e74c3c;
+            --primary: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        h1, h2, h3 {
+            color: var(--dark);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            color: #bdc3c7;
+        }
+        
+        .progress-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            height: 25px;
+            background-color: var(--light);
+            border-radius: 12px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #9b59b6);
+            width: 40%;
+            transition: width 0.5s ease;
+            border-radius: 12px;
+        }
+        
+        .excursion-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .excursion-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .excursion-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .excursion-card.completed {
+            border-top: 4px solid var(--completed);
+        }
+        
+        .excursion-card.in-progress {
+            border-top: 4px solid var(--in-progress);
+        }
+        
+        .excursion-card.not-started {
+            border-top: 4px solid var(--not-started);
+        }
+        
+        .status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .completed .status {
+            background-color: var(--completed);
+            color: white;
+        }
+        
+        .in-progress .status {
+            background-color: var(--in-progress);
+            color: white;
+        }
+        
+        .not-started .status {
+            background-color: var(--not-started);
+            color: white;
+        }
+        
+        .rating {
+            color: #f1c40f;
+            font-weight: bold;
+            margin: 15px 0 10px;
+        }
+        
+        .stars {
+            font-size: 20px;
+            letter-spacing: 3px;
+        }
+        
+        .author {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .progress-small {
+            height: 10px;
+            background-color: var(--light);
+            border-radius: 5px;
+            margin: 5px 0 15px;
+            overflow: hidden;
+        }
+        
+        .progress-small-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 5px;
+        }
+        
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .badge {
+            background-color: #e0f7fa;
+            color: #00838f;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 12px 25px;
+            background-color: transparent;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: #f0f0f0;
+        }
+        
+        .literary-period {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Культура в истории</h1>
+        <p class="subtitle">Экскурсионные маршруты по литературным произведениям</p>
+    </header>
+    
+    <div class="tabs">
+        <div class="tab active">Мой прогресс</div>
+        <div class="tab">Все маршруты</div>
+        <div class="tab">Рекомендации</div>
+        <div class="tab">Достижения</div>
+    </div>
+    
+    <div class="progress-container">
+        <h2>Ваш литературный прогресс</h2>
+        <p>Вы завершили 2 из 6 маршрутов (33%)</p>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 33%;"></div>
+        </div>
+    </div>
+    
+    <h2>Экскурсионные маршруты</h2>
+    
+    <div class="excursion-list">
+        <!-- Завершенная экскурсия 1 -->
+        <div class="excursion-card completed">
+            <span class="status">Завершено</span>
+            <h3>"Белые ночи"</h3>
+            <p class="author">Ф.М. Достоевский</p>
+            <p class="literary-period">Романтическая повесть, 1848 г.</p>
+            <div class="rating">
+                <span class="stars">★★★★★</span> (5.0)
+            </div>
+            <p>Места: Сенная площадь, Кокушкин мост, Казначейная улица</p>
+            <p>Дата прохождения: 12.04.2023</p>
+            <div class="badges">
+                <span class="badge">Достоевский</span>
+                <span class="badge">Романтизм</span>
+                <span class="badge">XIX век</span>
+            </div>
+            <a href="#" class="btn">Посмотреть отчет</a>
+        </div>
+        
+        <!-- Завершенная экскурсия 2 -->
+        <div class="excursion-card completed">
+            <span class="status">Завершено</span>
+            <h3>"Обломов"</h3>
+            <p class="author">И.А. Гончаров</p>
+            <p class="literary-period">Реалистический роман, 1859 г.</p>
+            <div class="rating">
+                <span class="stars">★★★★☆</span> (4.5)
+            </div>
+            <p>Места: Гороховая улица, дом Штольца, Невский проспект, Летний сад</p>
+            <p>Дата прохождения: 28.05.2023</p>
+            <div class="badges">
+                <span class="badge">Гончаров</span>
+                <span class="badge">Реализм</span>
+                <span class="badge">XIX век</span>
+            </div>
+            <a href="#" class="btn">Посмотреть отчет</a>
+        </div>
+        
+        <!-- В процессе -->
+        <div class="excursion-card in-progress">
+            <span class="status">В процессе</span>
+            <h3>"Петербург"</h3>
+            <p class="author">Андрей Белый</p>
+            <p class="literary-period">Символистский роман, 1913 г.</p>
+            <div class="rating">
+                <span class="stars">★★★★★</span> (4.8)
+            </div>
+            <p>Места: Невский проспект, Исаакиевская площадь, Таврический сад</p>
+            <div class="progress-text">
+                <span>Прогресс:</span>
+                <span>65%</span>
+            </div>
+            <div class="progress-small">
+                <div class="progress-small-fill" style="width: 65%;"></div>
+            </div>
+            <div class="badges">
+                <span class="badge">Символизм</span>
+                <span class="badge">Серебряный век</span>
+                <span class="badge">XX век</span>
+            </div>
+            <a href="#" class="btn">Продолжить</a>
+        </div>
+        
+        <!-- Не начатые экскурсии -->
+        <div class="excursion-card not-started">
+            <span class="status">Не начато</span>
+            <h3>"Лето в Петербурге"</h3>
+            <p class="author">Даниил Гранин</p>
+            <p class="literary-period">Современная проза, 2014 г.</p>
+            <div class="rating">
+                <span class="stars">★★★★☆</span> (4.3)
+            </div>
+            <p>Места: Благовещенский мост, Медный всадник</p>
+            <div class="badges">
+                <span class="badge">Современная литература</span>
+                <span class="badge">XXI век</span>
+            </div>
+            <a href="#" class="btn">Начать маршрут</a>
+        </div>
+        
+        <div class="excursion-card not-started">
+            <span class="status">Не начато</span>
+            <h3>"Петербургские повести"</h3>
+            <p class="author">Н.В. Гоголь</p>
+            <p class="literary-period">Цикл повестей, 1835-1842 гг.</p>
+            <div class="rating">
+                <span class="stars">★★★★★</span> (4.9)
+            </div>
+            <p>Места: Невский проспект, Квартира художника Пискарёва</p>
+            <div class="badges">
+                <span class="badge">Гоголь</span>
+                <span class="badge">Реализм</span>
+                <span class="badge">XIX век</span>
+            </div>
+            <a href="#" class="btn">Начать маршрут</a>
+        </div>
+        
+        <div class="excursion-card not-started">
+            <span class="status">Не начато</span>
+            <h3>"Преступление и наказание"</h3>
+            <p class="author">Ф.М. Достоевский</p>
+            <p class="literary-period">Психологический роман, 1866 г.</p>
+            <div class="rating">
+                <span class="stars">★★★★★</span> (5.0)
+            </div>
+            <p>Места: Дом Раскольникова, Кокушкин мост, Сенная площадь</p>
+            <div class="badges">
+                <span class="badge">Достоевский</span>
+                <span class="badge">Психологизм</span>
+                <span class="badge">XIX век</span>
+            </div>
+            <a href="#" class="btn">Начать маршрут</a>
+        </div>
+        
+        <div class="excursion-card not-started">
+            <span class="status">Не начато</span>
+            <h3>Жизнь Максима Горького</h3>
+            <p class="author">Биографический маршрут</p>
+            <p class="literary-period">Конец XIX - начало XX века</p>
+            <div class="rating">
+                <span class="stars">★★★☆☆</span> (3.9)
+            </div>
+            <p>Места: Вокзал Николаевской железной дороги, Владимирский собор, Доходный дом А. П. Воронина, Дом Мурузи, Дом Горького, Дом Е. П. Пешковой</p>
+            <div class="badges">
+                <span class="badge">Горький</span>
+                <span class="badge">Реализм</span>
+                <span class="badge">Биография</span>
+            </div>
+            <a href="#" class="btn">Начать маршрут</a>
+        </div>
+    </div>
+    
+    <script>
+        // Простая имитация работы кнопок
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const card = this.closest('.excursion-card');
+                
+                if (card.classList.contains('not-started')) {
+                    if (confirm('Начать этот литературный маршрут?')) {
+                        card.classList.remove('not-started');
+                        card.classList.add('in-progress');
+                        card.querySelector('.status').textContent = 'В процессе';
+                        card.querySelector('.status').style.backgroundColor = 'var(--in-progress)';
+                        alert('Маршрут начат! Теперь вы можете отслеживать свой прогресс.');
+                    }
+                } else if (card.classList.contains('in-progress')) {
+                    alert('Продолжайте ваш маршрут! В следующий раз здесь появится больше материалов.');
+                } else {
+                    alert('Отчет по маршруту будет доступен после обновления системы.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
